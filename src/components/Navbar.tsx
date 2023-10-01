@@ -23,10 +23,10 @@ const Navbar = () => {
               })}>
                 Pricing
               </Link>
-              <LoginLink className={buttonVariants({
+              <LoginLink className={`${buttonVariants({
                 variant: "ghost",
                 size: 'sm'
-              })}>
+              })} text-zinc-900`}>
                 Sign in
               </LoginLink>
               <RegisterLink className={buttonVariants({

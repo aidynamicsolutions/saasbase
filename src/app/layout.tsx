@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils'
 import './globals.css'
 import "react-loading-skeleton/dist/skeleton.css"
+import "simplebar-react/dist/simplebar.min.css"
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'

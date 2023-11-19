@@ -11,10 +11,10 @@ import { ChatContextProvider } from './ChatContext'
 
 interface ChatWrapperProps {
   fileId: string
-  isSubscribed: boolean
+  isSubscribed?: boolean
 }
 
-const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
+const ChatWrapper = ({ fileId, isSubscribed = false }: ChatWrapperProps) => {
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery({ fileId },
     {
       refetchInterval: (data) => data?.status === 'SUCCESS' || data?.status === 'FAILED' ? false : 500,

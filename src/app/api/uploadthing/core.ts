@@ -70,6 +70,11 @@ const onUploadComplete = async ({
           id: createdFile.id,
         },
       })
+    } else {
+      await db.file.update({
+        data: { uploadStatus: "SUCCESS" },
+        where: { id: createdFile.id },
+      })
     }
 
     // vectorize and index entire document
@@ -78,11 +83,6 @@ const onUploadComplete = async ({
     await PineconeStore.fromDocuments(pageLevelDocs, new OpenAIEmbeddings(), {
       pineconeIndex,
       // namespace: createdFile.id, // adding this break the storing on pinecone. try another service later
-    })
-
-    await db.file.update({
-      data: { uploadStatus: "SUCCESS" },
-      where: { id: createdFile.id },
     })
   } catch (error) {
     await db.file.update({

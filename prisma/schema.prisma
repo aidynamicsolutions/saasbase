@@ -12,8 +12,13 @@ datasource db {
 }
 
 model User {
-  id    String @id @unique //matches kinde userId
-  email String @unique
+  id            String    @id @unique @default(cuid()) //matches kinde userId
+  email         String?   @unique
+  name          String?
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  accounts      Account[]
 
   File    File[]
   Message Message[]
@@ -22,6 +27,25 @@ model User {
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 enum UploadStatus {

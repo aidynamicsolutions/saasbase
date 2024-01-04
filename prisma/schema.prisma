@@ -11,12 +11,18 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model User {
   id            String    @id @unique @default(cuid()) //matches kinde userId
   email         String?   @unique
   name          String?
   emailVerified DateTime?
   password      String?
+  role          UserRole  @default(USER)
   image         String?
   accounts      Account[]
 
@@ -84,4 +90,13 @@ model Message {
   userId    String?
   File      File?    @relation(fields: [fileId], references: [id])
   fileId    String?
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }

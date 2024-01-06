@@ -11,7 +11,6 @@ import { Document, Page, pdfjs } from 'react-pdf'
 
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import { useToast } from './ui/use-toast'
 
 import { useResizeDetector } from 'react-resize-detector'
 import { Button } from './ui/button'
@@ -33,6 +32,7 @@ import {
 // package that allows scroll easily
 import SimpleBar from 'simplebar-react'
 import PdfFullscreen from './PdfFullscreen'
+import { toast } from 'sonner'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -41,8 +41,6 @@ interface PdfRendererProps {
 }
 
 const PdfRenderer = ({ url }: PdfRendererProps) => {
-  const { toast } = useToast()
-
   const [numPages, setNumPages] = useState<number>()
   const [currPage, setCurrPage] = useState<number>(1)
   const [scale, setScale] = useState<number>(1)
@@ -181,11 +179,9 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 </div>
               }
               onLoadError={() => {
-                toast({
-                  title: 'Error loading PDF',
-                  description: 'Please try again later',
-                  variant: 'destructive',
-                })
+                toast.error('Error loading PDF', {
+                  description: "Please try again later"
+                });
               }}
               onLoadSuccess={({ numPages }) =>
                 setNumPages(numPages)

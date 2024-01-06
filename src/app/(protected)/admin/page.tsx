@@ -5,28 +5,19 @@ import { FormSuccess } from "@/components/FormSuccess";
 import { RoleGate } from "@/components/auth/RoleGate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
 import { UserRole } from "@prisma/client";
+import { toast } from "sonner"
 
 const AdminPage = () => {
-  const { toast } = useToast()
   const onServerActionClick = () => {
     admin()
       .then((data) => {
         if (data.error) {
-          toast({
-            title: 'error title',
-            description: 'error',
-            variant: 'destructive',
-          })
+          toast.error(data.error)
         }
 
         if (data.success) {
-          toast({
-            title: 'success title',
-            description: 'success',
-            variant: 'default',
-          })
+          toast.success(data.success)
         }
       })
   }
@@ -35,17 +26,9 @@ const AdminPage = () => {
     fetch("/api/admin")
       .then((response) => {
         if (response.ok) {
-          toast({
-            title: 'success title',
-            description: 'Allowed API Route!',
-            variant: 'default',
-          })
+          toast.success('Allowed API Route!')
         } else {
-          toast({
-            title: 'error title',
-            description: 'Forbidden API Route!',
-            variant: 'destructive',
-          })
+          toast.error('Forbidden API Route!')
         }
       })
   }

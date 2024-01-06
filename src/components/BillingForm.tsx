@@ -1,7 +1,6 @@
 'use client'
 
 import { getUserSubscriptionPlan } from '@/lib/stripe'
-import { useToast } from './ui/use-toast'
 import { trpc } from '@/app/_trpc/client'
 import MaxWidthWrapper from './MaxWidthWrapper'
 import {
@@ -14,6 +13,7 @@ import {
 import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
+import { toast } from 'sonner'
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<
@@ -24,18 +24,14 @@ interface BillingFormProps {
 const BillingForm = ({
   subscriptionPlan,
 }: BillingFormProps) => {
-  console.log("🚀 ~ file: BillingForm.tsx:27 ~ subscriptionPlan:", subscriptionPlan)
-  const { toast } = useToast()
 
   const { mutate: createStripeSession, isLoading } =
     trpc.createStripeSession.useMutation({
       onSuccess: ({ url }) => {
         if (url) window.location.href = url
         if (!url) {
-          toast({
-            title: 'There was a problem...',
-            description: 'Please try again in a moment',
-            variant: 'destructive',
+          toast.error('There was a problem...', {
+            description: 'Please try again in a moment'
           })
         }
       },

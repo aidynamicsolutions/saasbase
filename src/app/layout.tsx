@@ -9,7 +9,7 @@ import Navbar from '@/components/Navbar'
 import TRPCProvider from '@/components/TRPCProviders'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from "@/auth"
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 

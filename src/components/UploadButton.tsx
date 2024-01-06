@@ -7,16 +7,15 @@ import Dropzone from "react-dropzone"
 import { Cloud, File, Loader2 } from "lucide-react"
 import { Progress } from "./ui/progress"
 import { useUploadThing } from "@/lib/uploadthing"
-import { useToast } from "./ui/use-toast"
 import { trpc } from "@/app/_trpc/client"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const UploadDropzone = ({ isSubscribe }: { isSubscribe: boolean }) => {
   const [isUploading, setIsUploading] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
 
   const router = useRouter()
-  const { toast } = useToast()
 
   const { startUpload } = useUploadThing(isSubscribe ? "proPlanUploader" : "freePlanUploader")
 
@@ -56,10 +55,8 @@ const UploadDropzone = ({ isSubscribe }: { isSubscribe: boolean }) => {
         const res = await startUpload(acceptedFiles)
 
         if (!res) {
-          return toast({
-            title: "Something went wrong",
-            description: "Please try again later",
-            variant: "destructive",
+          return toast.error('Something went wrong', {
+            description: 'Please try again later'
           })
         }
 
@@ -68,10 +65,8 @@ const UploadDropzone = ({ isSubscribe }: { isSubscribe: boolean }) => {
         const key = fileResponse?.key
 
         if (!key) {
-          return toast({
-            title: "Something went wrong",
-            description: "Please try again later",
-            variant: "destructive",
+          return toast.error('Something went wrong', {
+            description: 'Please try again later'
           })
         }
 
